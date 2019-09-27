@@ -191,12 +191,18 @@ while True:
     user = input("请输入用户名》")
     if user == "q" or user == "Q":
         break
+    elif len(user) > 20:
+        user = user[0:21]
     pwd = input("请输入密码》")
     if pwd == "q" or pwd == "Q":
         break
+    elif len(pwd) > 20:
+        pwd = pwd[0:21]
     mail = input("请输入邮箱》")
     if mail == "q" or mail == "Q":
         break
+    elif len(mail) > 20:
+        mail = mail[0:21]
     table = table + user + "\t" + pwd + "\t" + mail + "\n"
 
 print(table.expandtabs(20))
