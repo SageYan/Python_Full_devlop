@@ -51,6 +51,22 @@ print(res)
 3 递归的效率不高，会导致内存溢出
 ```
 
+## 匿名函数
+
+```python
+func = lambda x:x**x
+print(func(11))
+
+
+n = lambda name:name+"_XX_!!"
+print(n("bobo"))
+
+he = lambda x, y, z : x** y** z
+print(he(3,2,4))
+
+plus = lambda a, b, c : (a+1, b*c)
+print(plus(1,2,3))
+```
 
 
 
