@@ -155,7 +155,7 @@ while True:
         print("验证成功！")
         break
     else:
-        code = check_code()
+        code.upper() = check_code()
         print(code)
         user_code = input("请输入验证码：")
 ```
