@@ -17,7 +17,9 @@
 
  2 根据Key获取值，key不存在时，可以指定默认值（None）
  v = dic['k11111']
- print(v)
+ print(v)  #不存在相关的key 会报错
+ 
+ #使用get方法避免报错，可以指定返回默认值
  v = dic.get('k1',111111)
  print(v)
 
