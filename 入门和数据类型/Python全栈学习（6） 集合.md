@@ -6,13 +6,16 @@
 
 ```python
  集合的定义
+ 集合中的元素必须是不可变类型，无序，由不同的元素组成
+
+s={1,2,3,4,5,6}
+
 s=set('hello')
 print(s)
 
 s=set(['alex','alex','sb'])
 print(s)
 
-s={1,2,3,4,5,6}
 
 常用操作方法
 #添加
@@ -82,6 +85,7 @@ print(p_s,l_s)
 # p_s=p_s-l_s
 p_s.difference_update(l_s)
 print(p_s)
+--执行结果{'zjw'}
 
 #是否非交集
 s1={1,2}
