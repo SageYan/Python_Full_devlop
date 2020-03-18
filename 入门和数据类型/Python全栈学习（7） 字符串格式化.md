@@ -60,7 +60,8 @@ print(tp1)
 tp1 = "I am {:s},I am {:d} old".format(*["kaer",15])
 print(tp1)
 
-
+数字格式化
+#二进制，八进制，整形，十六进制，百分比
 tpl = "numbers: {:b},{:o},{:d},{:x},{:X}, {:%},{}".format(15, 15, 15, 15, 15, 15.87623, 2)
 print(tpl)
 
