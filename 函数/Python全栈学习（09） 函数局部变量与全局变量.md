@@ -6,13 +6,14 @@
 
 ```python
 #全局变量与局部变量
+#函数即变量
 name = 'SAGE'
 def chang_name():
     name = 'haha'
     print(name)
 
 chang_name()
-print(name)
+print(name)    #打印全局变量
 
 #内置函数修改全局变量
 def gb_name():
