@@ -126,7 +126,7 @@ print(all(''))
 结果：
 True
 False
-True
+True  #若可迭代对象为空 默认返回True
 
 print(any([0,'']))
 print(any([0,'',1]))
