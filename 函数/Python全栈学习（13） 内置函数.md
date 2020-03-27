@@ -293,7 +293,7 @@ m=__import__(module_name)
 m.say_hi()
 ```
 
-### max，min，sort 的高级用法
+### max，min，sorted 的高级用法
 
 ```python
 #结合zip取出字典的values极值
