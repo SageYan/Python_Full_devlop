@@ -22,6 +22,7 @@ f.close()
 写wb：
 f = open('test01','wb')
 f.write('sage是严聪\r\n哈哈\r\nis yan'.encode('utf-8'))
+f.write(bytes('sage 是是是',encoding='utf-8'))
 f.close()
 ```
 
