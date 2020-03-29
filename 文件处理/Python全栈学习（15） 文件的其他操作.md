@@ -106,7 +106,7 @@ f.close()
 
 f = open('12.txt','rb')
 f.seek(-12,2)   #2：从文件末尾移动光标
-print(f.tell())
+print(f.tell()) 
 f.close()
 结果：
 250
@@ -129,7 +129,7 @@ f=open('日志文件','rb')
 for i in f:
 	print(i) 
 
-for i in f:
+for i in f:  #逐行读取，不会全部加载整个文件
     offs=-10
     while True:
         f.seek(offs,2)
