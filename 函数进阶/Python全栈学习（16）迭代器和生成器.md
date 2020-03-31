@@ -154,6 +154,18 @@ print('来自函数',g)
 
 #结果
 来自函数 <generator object test at 0x000001FC95960C48>
+
+
+def test():
+    for i in range(7):
+        yield i
+
+t = test()
+#yield的唤醒方式
+print(t.__next__())
+print(t.send('hahahah'))
+print(next(t))
+
 ```
 
 ### 生成器表达式
