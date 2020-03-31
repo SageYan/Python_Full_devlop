@@ -211,4 +211,24 @@ l=[1,2,3,34]
 # print(sum(i for i in range(10000000000000)))   #(i for i in range(10000000000000)) 生成器表达式 不会直接加载列表到内存
 
 ```
+### 生成器的特性
+```python
+#生成器在产生的时候（函数），不会产生任何操作，而且只能遍历一次
 
+#例子
+def test():
+    for i in range(7):
+        yield i
+
+t = test()
+
+t1=(i for i in t)   #不会做任何操作
+t2=(i for i in t1)  #不会做任何操作
+print(list(t1))   #list方法遍历完生成器t
+print(list(t2))   #list(t2)所以取不到值
+
+#结果
+[0, 1, 2, 3, 4, 5, 6]
+[]
+
+```
