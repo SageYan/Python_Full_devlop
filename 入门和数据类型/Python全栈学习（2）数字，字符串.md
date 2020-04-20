@@ -22,7 +22,7 @@
 					v = int(num, base=16)
 					print(v)
 - bit_lenght
-# 当前数字的二进制，至少用n位表示
+# 有效的二进制长度
 					r = age.bit_length()
 
 - range
