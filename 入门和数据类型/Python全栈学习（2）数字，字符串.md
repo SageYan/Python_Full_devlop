@@ -314,7 +314,7 @@
 	 print(v)
 	 
 	 例如：
-	 a = 'ABCDEFGHIJK'
+	a = 'ABCDEFGHIJK'
 	print(a[0:3])  # print(a[:3]) 从开头开始取0可以默认不写
 	print(a[2:5])
 	print(a[:]) #默认到最后
