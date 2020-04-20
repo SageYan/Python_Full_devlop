@@ -282,6 +282,7 @@
 	     变量名
 	 break
 	 continue
+	 else
 	
 	 test = "郑建文妹子有种冲我来"
 	 index = 0
