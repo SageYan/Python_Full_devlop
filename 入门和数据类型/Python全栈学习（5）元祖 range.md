@@ -2,7 +2,7 @@
 
 
 
-# Python全栈学习（5）元祖
+# Python全栈学习（5）元祖 range
 
 ## 元祖提供的方法
 
@@ -61,4 +61,22 @@
  tu[3][0] = 567
  print(tu)
 ```
+## range常用方法
+```python
+r = range(10)
+#索引
+print(r[1])
 
+#步长
+for i in range(1,101,2):
+    print(i)
+
+#倒叙
+for i in range(101,8,-3):
+    print(i)
+
+#利用for循环，利用range将l1列表的所有索引依次打印出来
+l1 = [1, 2, 3, 'alex', '太白', 2, 3, 4, 66,]
+for i in range(len(l1)):
+    print(l1[i],i)
+```
