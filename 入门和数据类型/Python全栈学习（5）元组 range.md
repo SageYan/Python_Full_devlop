@@ -64,6 +64,11 @@
  #元组拆包#
  a,b = (1,2)
  
+ #list unpack
+l = [1,23,4,5,6,7,8,9,10]
+a,*_,b  = l
+print(a,b)
+ 
 ```
 ## range常用方法
 ```python
