@@ -131,6 +131,14 @@ print(li[3:-1])
 
 for item in li:
    print(item)
+   
+li = [1, 3, 4, "alex", [3, 7, 8, "TaiBai"], 5, "RiTiAn"]
+# 循环打印列表中的每个元素，遇到列表则再循环打印出它里面的元素。
+for it in li:
+    if type(it) == list:
+        for j in it:
+            print(j)
+    else :print(it)
 ```
 
 ## 列表的嵌套
