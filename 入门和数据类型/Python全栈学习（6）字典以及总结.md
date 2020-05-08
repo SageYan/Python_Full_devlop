@@ -185,6 +185,16 @@ print(dic)
 #请在k3对应的值的第 1 个位置插入个元素 18，输出修改后的字典
 dic['k3'].insert(0,18)
 print(dic)
+
+#将字符串msg = "k :1|k1:2|k2:3|k3: 4" 转化为字典 {'k': 1, 'k1': 2, 'k2': 3, 'k3': 4}
+msg = "k :1|k1:2|k2:3|k3: 4"
+
+dic = {}
+li = msg.strip().split("|")
+for i in  li:
+    key ,value = i.split(":")
+    dic[key.strip()]=int(value.strip())
+print(dic)
 ```
 
 
