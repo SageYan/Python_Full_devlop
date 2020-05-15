@@ -204,6 +204,44 @@ for i in msg.split("|"):
     k1,v1=i.split(":")
     dic1[k1.strip()]=int(v1)
 print(dic1)
+
+"""
+商品列表：
+  goods = [
+		{"name": "电脑", "price": 1999},
+		{"name": "鼠标", "price": 10},
+		{"name": "游艇", "price": 20},
+		{"name": "美女", "price": 998}
+	]
+要求:
+1：页面显示 序号 + 商品名称 + 商品价格，如：
+      1 电脑 1999
+      2 鼠标 10
+	  ...
+2：用户输入选择的商品序号，然后打印商品名称及商品价格
+3：如果用户输入的商品序号有误，则提示输入有误，并重新输入。
+4：用户输入Q或者q，退出程序。
+"""
+goods = [
+		{"name": "电脑", "price": 1999},
+		{"name": "鼠标", "price": 10},
+		{"name": "游艇", "price": 20},
+		{"name": "美女", "price": 998}
+	]
+for i in range(len(goods)):
+    print("{} {} {}".format(i+1,goods[i]["name"],goods[i]["price"]))
+
+while 1:
+    goods_id = input("请输入商品号：").strip()
+    if goods_id.upper() == "Q":
+        break
+    elif goods_id.isdecimal() :
+        if  int(goods_id) <= len(goods):
+            print(goods[int(goods_id)-1]["name"],goods[int(goods_id)-1]["price"])
+        else:
+            print("超出范围，请重新输入")
+    else :
+        print("输入有误，重新输入")
 ```
 
 
