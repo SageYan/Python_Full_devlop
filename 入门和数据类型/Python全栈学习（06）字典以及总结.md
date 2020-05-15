@@ -195,6 +195,15 @@ for i in  li:
     key ,value = i.split(":")
     dic[key.strip()]=int(value.strip())
 print(dic)
+
+# 有字符串"k: 1|k1:2|k2:3 |k3 :4" 处理成字典 {'k':1,'k1':2....}
+msg = "k: 1|k1:2|k2:3 |k3 :4"
+print( msg.split("|"))
+dic1 = {}
+for i in msg.split("|"):
+    k1,v1=i.split(":")
+    dic1[k1.strip()]=int(v1)
+print(dic1)
 ```
 
 
