@@ -73,3 +73,66 @@ print(id(l1[-1]),id(l2[-1]))  # 2788324482632 2788324482696
 print(id(l1[-2]),id(l2[-2]))  # 2788323047752 2788323047752
 ```
 
+## 相关练习
+```python
+#可变数据类型 内存地址不变
+v1 = {'k1': 'v1', 'k2': [1, 2, 3]}
+v2 = v1
+v1['k1'] = 'wupeiqi'
+v1['k2'].append(4)
+print(v2)
+# {'k2': [1, 2, 3, 4], 'k1': 'wupeiqi'}
+#不可变数据类型 内存地址变化
+a1 = 'aaa'
+a2 = a1
+a1 = 'aaa2'
+print(a2)
+# aaa
+
+#列表槽位对应数据内存地址
+v1 = '好嗨哟'
+v2 = [1, 2, 3, 4, v1]  # v2[-1] = v1
+v1 = "人生已经到达了巅峰"
+print(v2)
+#[1, 2, 3, 4, '好嗨哟']
+
+#同上
+info = [1, 2, 3]
+userinfo = {'account': info, 'num': info, 'money': info} #key指向实际数据内存地址，而非info变量
+info.append(9)
+print(userinfo)
+info = "题怎么这么多"  #info 指向的内存地址变了
+print(userinfo)
+
+#可变不可变数据类型变量变化总结
+data = {}
+for i in range(10):
+    data['user'] = i
+print(data)
+
+data_list = []
+for i in range(10):
+    data = {}  #把字典清空
+    data['user'] = i
+    data_list.append(data)
+print(data_list)
+
+data_list = []
+for i in range(10):
+    #data = {}
+    data['user'] = i #循环更新data字典
+    data_list.append(data)
+print(data_list)
+
+data_list = []
+for i in range(10):
+    data = {}
+data['user'] = i #循环结束执行赋值
+data_list.append(data)
+print(data_list)
+#结果
+{'user': 9}
+[{'user': 0}, {'user': 1}, {'user': 2}, {'user': 3}, {'user': 4}, {'user': 5}, {'user': 6}, {'user': 7}, {'user': 8}, {'user': 9}]
+[{'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}, {'user': 9}]
+[{'user': 9}]
+```
