@@ -112,15 +112,16 @@ print(data)
 
 data_list = []
 for i in range(10):
-    data = {}  #把字典清空
+    data = {}  #创建一个新的空字典
     data['user'] = i
     data_list.append(data)
 print(data_list)
 
 data_list = []
+data = {}
 for i in range(10):
     #data = {}
-    data['user'] = i #循环更新data字典
+    data['user'] = i #循环更新 data字典。data_list当中的槽位指向的是同一个data字典。
     data_list.append(data)
 print(data_list)
 
