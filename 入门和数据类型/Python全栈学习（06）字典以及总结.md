@@ -231,6 +231,10 @@ goods = [
 
 for i in range(len(goods)):
     print("{} {} {}".format(i+1,goods[i]["name"],goods[i]["price"]))
+或者
+#for i in enumerate(goods):
+#enumerate() 函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标
+#    print('{}\t{}\t{}'.format(i[0]+1,i[1]["name"],i[1]["price"]))
 
 while 1:
     goods_id = input("请输入商品号：").strip()
