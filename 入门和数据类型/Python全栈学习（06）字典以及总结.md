@@ -228,6 +228,7 @@ goods = [
 		{"name": "游艇", "price": 20},
 		{"name": "美女", "price": 998}
 	]
+
 for i in range(len(goods)):
     print("{} {} {}".format(i+1,goods[i]["name"],goods[i]["price"]))
 
@@ -236,8 +237,9 @@ while 1:
     if goods_id.upper() == "Q":
         break
     elif goods_id.isdecimal() :
-        if  int(goods_id) <= len(goods):
-            print(goods[int(goods_id)-1]["name"],goods[int(goods_id)-1]["price"])
+        goods_id = int(goods_id)
+        if  0 < goods_id <= len(goods):
+            print('您选择的商品是{}，它的价格是{}'.format(goods[goods_id-1]["name"],goods[goods_id-1]["price"]))
         else:
             print("超出范围，请重新输入")
     else :
