@@ -15,7 +15,7 @@ bytes类型也称作字节文本，他的主要用途就是网络的数据传输
 '''
 ```
 
-## 基本数据类型bytes的表现形式
+## 基本数据类型str bytes的表现形式
 
 ### 英文
 
@@ -68,4 +68,13 @@ b2 = s.encode('utf-8') #以utf-8重新编码
 print(b2) 
 # b'\xe4\xb8\xad\xe5\x9b\xbd'
 ```
+## str 与 bytes的区别
+```python
+str    文本文字（人类）  --编码--> bytes
+bytes  字节文字（计算机）--解码--> str
 
+'''
+str :python基础数据类型，用于存储少量的常用的数据
+bytes :bytes就是用于数据存储和网络传输数据
+'''
+```
