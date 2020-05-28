@@ -249,3 +249,18 @@ print(dic)
 
 ```
 
+## 练习题
+```python
+lst = ['周星星', '周扒皮', '马化腾', '周慧']
+for i in lst:
+    if i.strip()[0] == '周':
+        lst.remove(i)
+print(lst)
+#['周扒皮', '马化腾'] 
+# 注意for循环改变list的大小，导致结果有误
+for i in range(len(lst)-1, -1, -1):
+    if lst[i].strip()[0] == '周':
+        lst.pop(i)
+print(lst)
+# ['马化腾']
+```
