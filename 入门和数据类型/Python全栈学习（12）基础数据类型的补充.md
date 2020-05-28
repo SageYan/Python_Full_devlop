@@ -263,4 +263,24 @@ for i in range(len(lst)-1, -1, -1):
         lst.pop(i)
 print(lst)
 # ['马化腾']
+
+#车牌区域划分, 现给出以下车牌. 根据车牌的信息, 分析出各省的车牌持有量. (选做题)
+cars = ['鲁A32444','鲁B12333','京B8989M','⿊C49678','⿊C46555','沪 B25041']
+local = {'沪':'上海', '⿊':'⿊⻰江', '鲁':'⼭东', '鄂':'湖北', '湘':'湖南','京': '北京'}
+
+# 期望结果: {'⿊⻰江':2, '⼭东': 1, '北京': 1}
+# 思想：循环创建字典键值对，不存在就创建，存在即增加计数
+dic = {}
+for car in cars:
+    if local[car.strip()[0]] not in dic.keys():
+        dic[local[car.strip()[0]]] = 1
+    else:
+        dic[local[car.strip()[0]]] += 1
+print(dic)
+
+#简化
+dic = {}
+for car in cars:
+    dic[local[car.strip()[0]]] = dic.get(local[car.strip()[0]],0) + 1
+print(dic)
 ```
