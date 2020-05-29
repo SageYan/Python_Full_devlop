@@ -163,6 +163,36 @@ f1.seek(10)
 print(f1.read())
 f1.close()
 
+'''
+f=open('seek.txt','r',encoding='utf-8')
+print(f.tell())
+f.seek(10)
+print(f.tell())
+f.seek(3)  #默认相对位置是文件起始位置,默认省略0
+print(f.tell())
+结果：
+10
+3
+
+
+f = open('12.txt','rb')  #需要以相对位置移动光标 文件必须以b的模式打开
+f.seek(10,1)
+print(f.tell())
+f.seek(3,1)    #参数1表示以相对移动的方式
+print(f.tell())
+f.close()
+结果：
+10
+13
+
+f = open('12.txt','rb')
+f.seek(-12,2)   #2：从文件末尾移动光标
+print(f.tell()) 
+f.close()
+结果：
+250
+'''
+
 #flush 强制刷新
 f1 = open('强制刷新.txt', 'w', encoding='utf-8')
 f1.write("哈哈\nbullshit!")
