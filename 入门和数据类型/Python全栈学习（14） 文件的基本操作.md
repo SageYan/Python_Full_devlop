@@ -283,3 +283,42 @@ with open('文件的写', encoding='utf-8',mode='w') as f1:
          f1.write('恢复贷款首付款')  #不会清空文件
 ```
 
+## 9 练习题
+```python
+# 文件a.txt内容：每一行内容分别为商品名字，价钱，个数。
+# apple 10 100
+# tesla 100000 1
+# mac 3000 2
+# lenovo 30000 3
+# chicken 10 3
+
+
+# 通过代码，将其构建成这种数据类型：[{'name':'apple','price':10,'amount':3},{'name':'tesla','price':1000000,'amount':1}......] 并计算出总价钱。
+#[{'name':'apple','price':10,'amount':3,'year': 2019},{'name':'tesla','price':1000000,'amount':1}......]
+
+#方法一：
+l1 = []
+with open('a', 'r', encoding='utf-8') as f1:
+    for line in f1:
+
+        line_lst = line.strip().split()
+        dic = {"name":line_lst[0], 'price':line_lst[1], 'amount':line_lst[2]}
+        l1.append(dic)
+print(l1)
+#分析： 可拓展性差，文件a新增字段，代码修改严重
+
+
+l1 = []
+name_lst = ['name', 'price', 'amount', 'year']
+#创建name_lst 与处理过程解绑耦合性
+with open('a', 'r', encoding='utf-8') as f1:
+    for line in f1:
+
+        line_lst = line.strip().split()
+        dic = {}
+        for i in range(len(name_lst)):
+            dic[name_lst[i]] = line_lst[i]
+#取出name_lst字段做key，文件内容做value，生成目标字典
+        l1.append(dic)
+print(l1)
+```
