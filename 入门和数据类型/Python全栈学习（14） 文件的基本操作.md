@@ -321,4 +321,44 @@ with open('a', 'r', encoding='utf-8') as f1:
 #取出name_lst字段做key，文件内容做value，生成目标字典
         l1.append(dic)
 print(l1)
+
+#2.通过代码，将其构建成这种数据类型：[{'name':'apple','price':10,'amount':3,year:2012},{'name':'tesla','price':1000000,'amount':1}......]
+'''
+name:apple price:10 amount:3 year:2012
+name:tesla price:100000 amount:1 year:2013
+name:te1 price:120000 amount:3 year:2020
+name:te2a price:200000 amount:4 year:2023
+'''
+
+l1 = []
+l2 = ['name', 'price', 'amount', 'year']
+for line in open('a1',encoding='utf-8'):
+
+    line_lst = line.strip().split()
+    dic1 = {}
+    for i in range(len(l2)):
+
+        dic1[l2[i]] = line_lst[i].split(":")[1]
+    l1.append(dic1)
+print(l1)
+
+
+#3.通过代码，将其构建成这种数据类型：[{'序号':'1','部门':Python,'人数':30,'平均年龄':26,'备注':'单身狗'},......]
+'''
+序号 部门 人数 平均年龄 备注
+1 python 30 26 单身狗
+2 Linux 26 30 没对象
+3 运营部 20 24 女生多
+'''
+l1 = []
+with open('a2',encoding='utf-8') as f1:
+    l2 = f1.readline().strip().split()
+    for line in f1:
+        line_lst = line.strip().split()
+        dic1 = {}
+        for i in range(len(l2)):
+            dic1[l2[i]] = line_lst[i]
+        l1.append(dic1)
+
+print(l1)
 ```
