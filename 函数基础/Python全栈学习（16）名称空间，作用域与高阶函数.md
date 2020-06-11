@@ -94,3 +94,45 @@ nonlocal的总结：
 '''
 ```
 
+## 练习
+
+```python
+
+#写函数, 接收一个参数(此参数类型必须是可迭代对象), 将可迭代对象的每个元素以’_’相连接, 形成新的字符串, 并返回
+def foo(a):
+    b = ''
+    for i in a:
+        if a.index(i) == 0:
+            i = str(i)
+            b = b  + i
+        else:
+            i = str(i)
+            b = b + '_' + i
+
+    return b
+
+print(foo([1,'a','absb',123]))
+
+def foo2(team):
+    lst = []
+    for member in team:
+        lst.append(str(member))
+    return '_'.join(lst)
+
+print(foo2([1,2,3,[1,2333,]]))
+
+#有如下函数:
+def wrapper():
+    def inner():
+        print(666)
+wrapper()
+你可以任意添加代码, 执行inner函数.
+
+def wrapper():
+    def inner():
+        print(666)
+    return inner()
+
+wrapper()
+```
+
