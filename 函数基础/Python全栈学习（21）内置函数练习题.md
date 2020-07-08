@@ -84,3 +84,72 @@ res=ask_way(person_list)
 print(res)
 ```
 
+#### 5.map fliter sorted 练习
+
+```python
+# 有下面字典，得到购买每只股票的总价格，并放在一个迭代器中结果：list一下[9110.0, 27161.0,......]
+# 还是上面的字典，用filter过滤出单价大于100的股票。
+portfolio = [
+{'name': 'IBM', 'shares': 100, 'price': 91.1},
+{'name': 'AAPL', 'shares': 50, 'price': 543.22},
+{'name': 'FB', 'shares': 200, 'price': 21.09},
+{'name': 'HPQ', 'shares': 35, 'price': 31.75},
+{'name': 'YHOO', 'shares': 45, 'price': 16.35},
+{'name': 'ACME', 'shares': 75, 'price': 115.65}]
+
+ret = map(lambda x : x['shares'] * x['price'],portfolio)
+print(list(ret))
+
+ret2 = filter(lambda x : x['price'] > 100 ,portfolio)
+print(list(ret2))
+
+
+#将l1按照列表中的每个字典的values大小进行排序，形成一个新的列表。
+l1 = [ {'sales_volumn': 0},
+{'sales_volumn': 108},
+{'sales_volumn': 337},
+{'sales_volumn': 475},
+{'sales_volumn': 396},
+{'sales_volumn': 172},
+{'sales_volumn': 9},
+{'sales_volumn': 58},
+{'sales_volumn': 272},
+{'sales_volumn': 456},
+{'sales_volumn': 440},
+{'sales_volumn': 239}]
+
+print(sorted(l1,key=lambda x: x['sales_volumn'],reverse=True))
+
+
+
+# 写一个函数完成三次登陆功能：
+# 用户的用户名密码从一个文件register中取出。
+# register文件包含多个用户名，密码，用户名密码通过|隔开，每个人的用户名密码占用文件中一行。
+# 完成三次验证，三次验证不成功则登录失败，登录失败返回False。
+# 登陆成功返回True。
+def get_username_password():
+    username_dict = {}
+    with open('register',encoding='utf-8') as f1:
+        for it in f1:
+            lst = it.strip().split('|')
+            username_dict[lst[0].strip()] = lst[1].strip()
+    return username_dict
+
+def login():
+    count = 1
+    dic1 = get_username_password()
+    while count < 4:
+        username = input('pls input your username:').strip()
+        passwd = input('pls input your password:').strip()
+
+        if username in dic1 and passwd == dic1[username]:
+            print("Login success!")
+            return True
+        else:
+            print("Pls input agin!")
+
+        count += 1
+
+login()
+```
+
