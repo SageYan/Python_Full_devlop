@@ -300,6 +300,50 @@ __file__：显示当前文件的绝对路径+文件名。
 '''
 ```
 
+### 相对导入
+
+```python
+#针对某个项目中的不同模块之间进行导入，称为相对导入
+相对路径导入只有一种格式：
+from 相对路径 import xxx
+相对路径：
+. 表示的是当前的路径
+..表示的是父路径
+...表示的是父路径的父路径
+
+'''
+父模块
+E:\sagepy\env\20200730\test_rel_imp.py
+'''
+import sys
+import os
+
+#sys.path.append(os.path.dirname(__file__)+'/relpro')
+#import enter
+
+from relpro.bin import enter
+print(enter.age)
+print(enter.motion)
+
+'''
+子模块，提供入口
+E:\sagepy\env\20200730\relpro\bin\enter.py
+'''
+from ..source.s1 import *  #相对路径导入 模块s1的内容
+age = 1
+name = "sage"
+
+
+'''
+提供资源的子模块
+E:\sagepy\env\20200730\relpro\source\s1
+'''
+daughter = 'amy'
+motion = 'sad'
+```
+
+
+
 ### 模块导入方式小结
 
 ```python
