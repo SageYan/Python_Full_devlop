@@ -69,11 +69,7 @@ time.struct_time(tm_year=2018, tm_mon=10, tm_mday=10, tm_hour=14, tm_min=23, tm_
 
 time模块三大对象之间的转换关系:
 
-| ![](pic/time.png) |
-| ----------------- |
-|                   |
-
-
+![](pic/time.png)
 
 ### 模块分类
 
