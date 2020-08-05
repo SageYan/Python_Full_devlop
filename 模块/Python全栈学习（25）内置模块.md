@@ -162,67 +162,155 @@ Python 路径为： ['E:\\sagepy\\env\\20200731', 'D:\\software\\python35\\pytho
 
 ```
 
-## 导入 import
-
-### **第一次导入模块执行三件事**
+### json
 
 ```python
-1.创建一个以模块名命名的名称空间。
-2.执行这个名称空间（即导入的模块）里面的代码。
-3.通过   "模块名."  的方式引用该模块里面的内容（变量，函数名，类名等）。
-        
-ps：重复导入模块会直接引用内存中已经加载好的结果        
+JavaScript Object Notation:java脚本兑现标记语言：
+已经成为一种简单的数据交换格式。
+
+序列化: 将其他数据格式转换成json字符串的过程
+反序列化: 将json字符串转换其他数据类型的过程
+    
+#序列化模块就是将一个常见的数据结构转化成一个特殊的序列，并且这个特殊的序列还可以反解回去。它的主要用途：文件读写数据，网络传输数据。
 ```
 
-#### 导入模块时，如何避免执行模块中的可执行语句
+```python
+#用于网络传输：dumps loads
+
+import json
+
+dic1 = {'name':'sage', 'age':30, 'hobby':'sleep'}
+str1 = json.dumps(dic1)
+print(str1, type(str1))
+
+dic2 = json.loads(str1)
+print(dic2, type(dic2))
+'''
+{"name": "sage", "hobby": "sleep", "age": 30} <class 'str'>
+{'name': 'sage', 'hobby': 'sleep', 'age': 30} <class 'dict'>
+注意：
+#集合 Object of type 'set' is not JSON serializable
+'''
+
+#用于文件写读：dump load
+
+import json
+
+with open('json.txt','wt',encoding='utf-8') as f1:
+    json.dump([1,2,3],f1)
+
+with open('json.txt','r',encoding='utf-8') as f2:
+    res = json.load(f2)
+print(res,type(res))
+
+'''
+[1, 2, 3] <class 'list'>
+'''
+
+#PS: json序列化存储多个数据到同一个文件中
+#对于json序列化，存储多个数据到一个文件中是有问题的，默认一个json文件只能存储一个json数据，但是也可以解决:
+
+import json
+
+with open('json.txt', 'a', encoding='utf-8') as f3:
+    f3.write(json.dumps([1, 2, 3, ]) + '\n', )
+    f3.write(json.dumps({'name':'oldboy2'}) + '\n')
+    f3.write(json.dumps([1, 'SAGE', 3, ]) + '\n')
+
+import json
+
+with open('json.txt', 'r', encoding='utf-8') as f4:
+    #print(json.loads(f4.readline()))
+    for x in f4:
+        obj = json.loads(x.strip())
+        print(obj,type(obj))
+'''
+[1, 2, 3] <class 'list'>
+{'name': 'oldboy2'} <class 'dict'>
+[1, 'SAGE', 3] <class 'list'>
+'''
+```
+
+### pickle
 
 ```python
-模块 __name__属性的使用
+'''
+只能是Python语言遵循的一种数据转化格式，只能在python语言中使用。
+支持Python所有的数据类型包括实例化对象。
+'''
+1. 用于网络传输：dumps loads
+import pickle
+dic = {1:'sage', 2:'amy', 3:'Boo',}
+b1 = pickle.dumps(dic)
+print(b1,type(b1))
 
-在脚本方式运行时，`__name__`是固定的字符串：`__main__`
-在以模块方式被导入时，`__name__`就是本模块的名字
+d1 = pickle.loads(b1)
+print(d1,type(d1))
+'''
+b'\x80\x03}q\x00(K\x01X\x04\x00\x00\x00sageq\x01K\x02X\x03\x00\x00\x00amyq\x02K\x03X\x03\x00\x00\x00Booq\x03u.' <class 'bytes'>
+{1: 'sage', 2: 'amy', 3: 'Boo'} <class 'dict'>
+'''
 
-在自定义模块中对`__name__`进行判断，决定是否执行可执行语句：开发阶段，就执行，使用阶段就不执行:
-if __name__ == '__main__':
-    main()
+#序列化函数对象
+import pickle
+def func1(name):
+    return name
+
+by1 = pickle.dumps(func1)
+print(by1, type(by1)) #b'\x80\x03c__main__\nfunc1\nq\x00.' <class 'bytes'>
+
+2. 用于文件写读：dump load
+import pickle
+
+name = 'SAGE'
+hobby_list = ['reading', 'films', 'studying']
+fa_dic = {'wife': 'boo', 'daughter': 'amy'}
+mem_set = set('Hello')
+#pickle可以多次对同一个文件序列化
+with open('pickle.txt', mode='ab') as f1:
+    pickle.dump(name, f1)
+    pickle.dump(hobby_list, f1)
+    pickle.dump(fa_dic, f1)
+    pickle.dump(mem_set, f1)
+
+
+import pickle
+with open('pickle.txt','rb') as f2:
+    print(pickle.load(f2))
+    print(pickle.load(f2))
+    print(pickle.load(f2))
+    print(pickle.load(f2))
+    print(pickle.load(f2)) #EOFError: Ran out of input
+#优化：
+with open('pickle.txt','rb') as f2:
+    while True:
+        try:
+            print(pickle.load(f2))
+
+        except EOFError:
+            break
+'''
+SAGE
+['reading', 'films', 'studying']
+{'daughter': 'amy', 'wife': 'boo'}
+{'H', 'e', 'o', 'l'}
+'''
 ```
 
 
 
-#### **被导入模块拥有独立的名称空间**
-
-每个模块都是一个独立的名称空间，定义在这个模块中的函数，把这个模块的名称空间当做全局名称空间，这样我们在编写自己的模块时，就不用担心我们定义在自己模块中全局变量会在被导入时，与使用者的全局变量冲突。
+#### json,pickle的比较
 
 ```python
-当前是meet.py
+json:
+1.不是所有的数据类型都可以序列化.结果是字符串.
+2.不能多次对同一个文件序列化.
+3.json数据可以跨语言
 
-import tbjx.py
-name = 'alex'
-print(name)
-print(tbjx.name)
-'''
-from the tbjx.py
-alex
-太白金星
-'''
-
-def read1():
-    print(666)
-tbjx.read1()
-'''
-from the tbjx.py
-tbjx模块： 太白金星
-'''
-
-name = '日天'
-tbjx.change()
-print(name)
-print(tbjx.name)
-'''
-from the tbjx.py
-日天
-barry
-'''
+pickle:
+1.所有python类型都能序列化,结果是字节串.
+2.可以多次对同一个文件序列化
+3.不能跨语言.
 ```
 
 ### **为模块起别名**
