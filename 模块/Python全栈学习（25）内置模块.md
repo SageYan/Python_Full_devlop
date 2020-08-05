@@ -67,27 +67,99 @@ time.struct_time(tm_year=2018, tm_mon=10, tm_mday=10, tm_hour=14, tm_min=23, tm_
 
 ```
 
-time模块三大对象之间的转换关系:
+### OS 
 
-![](pic/time.png)
-
-### 模块分类
+和操作系统相关的模块。主要是文件，目录的操作
 
 ```python
-Python语言中，模块分为三类。
+1 删除文件 重命名文件
+import os
+os.remove(r'E:\sagepy\env\20200731\cong.txt')
+os.rename('aa','hello.txt')
 
-    第一类：内置模块，也叫做标准库。此类模块就是python解释器给你提供的，比如我们之前见过的time模块,os模块。标准库的模块非常多（200多个，每个模块又有很多功能），我们这几天就讲常用的十几种，后面课程中还会陆续的讲到。
+2 删除目录，目录必须为空
+os.removedirs(r'E:\sagepy\env\20200731\test')
+#删除不为空的目录
+import shutil
+shutil.rmtree(r'E:\sagepy\env\20200731\tet2')
 
-    第二类：第三方模块，第三方库。一些python大神写的非常好用的模块，必须通过pip install 指令安装的模块，比如BeautfulSoup, Django,等等。大概有6000多个。
+3 os.path
+3.1 文件名与路径名的字符串操作
+# 获取路径名，文件名，不判断存在否
+print(os.path.dirname('/root/a/b/c/abc'))
+print(os.path.basename('e:/a/b/c/text'))
+#分割路径与文件 
+print(os.path.split(r'E:\yanc\sage\test\1.py'))
+#拼接路径
+print(os.path.join('d:\\','world','I','am','Sage'))
 
-    第三类：自定义模块。我们自己在项目中定义的一些模块。
+'''
+/root/a/b/c
+text
+('E:\\yanc\\sage\\test', '1.py')
+d:\world\I\am\Sage
+'''
+
+3.2 文件的时间属性 与 绝对路径
+print(os.path.getatime('exams.py')) #访问时间
+print(os.path.getctime('exams.py')) #创建时间
+print(os.path.getmtime('exams.py')) #修改时间
+print(os.path.getsize(r'E:\sagepy\env\20200731\exams.py')) #文件大小
+print(os.path.abspath('exams.py')) #不是以 / 开头,默认当前路径
+print(os.path.abspath('/exams.py')) #/开头的路径,默认是在当前盘符下
+
+'''
+1596448541.496073
+1596448541.496073
+1596448541.496073
+4896
+E:\sagepy\env\20200731\exams.py
+E:\exams.py
+'''
+3.3 判断
+print(os.path.isabs('/sage.txt')) #不会确认存在否
+print(os.path.isdir(r'E:\sagepy\env\20200731'))
+print(os.path.isfile(r'E:\sagepy\env\20200731'))
+print(os.path.exists(r'/hello.txt')) 
+
+'''
+True
+True
+False
+False
+'''
 ```
 
-### 模块的运行方式
+### sys
+
+和解释器操作相关的模块
+主要两个方面:
+	解释器执行时获取参数: sys.argv[x]
+	解释器执行时寻找模块的路径: sys.path
 
 ```python
-- 脚本方式：直接用解释器执行。或者PyCharm中右键运行。
-- 模块方式：被其他的模块导入。为导入它的模块提供资源（变量，函数定义，类定义等）。
+'''
+inner module.py 的内容如下
+'''
+import sys
+print("脚本名:",sys.argv[0])      # 脚本名
+print("第一个参数:",sys.argv[1])      # 第一个参数
+print("第二个参数:",sys.argv[2])      # 第二个参数
+
+print('\n\nPython 路径为：', sys.path, '\n')
+
+#用脚本的方式运行 inner module.py
+python "inner module.py" 'a'  'Amy'
+
+结果：
+'''
+脚本名: inner module.py
+第一个参数: 'a'
+第二个参数: 'Amy'
+
+Python 路径为： ['E:\\sagepy\\env\\20200731', 'D:\\software\\python35\\python35.zip', 'D:\\software\\python35\\DLLs', 'D:\\software\\python35\\lib', 'D:\\software\\python35', 'D:\\software\\python35\\lib\\site-packages']
+'''
+
 ```
 
 ## 导入 import
