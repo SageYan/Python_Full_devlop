@@ -35,7 +35,7 @@ def timer(f):
         print("函数的运行时间是：{}秒".format(stop_time - start_time))
     return inner
 
-@timer  #ndex = timmer(index)
+@timer  #index = timmer(index)
 def index():
     time.sleep(0.5)
     print("Welcome!")
