@@ -469,3 +469,26 @@ Counter({1: 5, 2: 1, 3: 1, 4: 1, 12: 1, 13: 1})
 [(1, 5), (2, 1)]
 '''
 ```
+
+### shutil
+
+```python
+#shutil 主要用来处理操作系统文件，路径的复制，压缩，重命名，删除等操作
+import shutil
+#复制文件
+shutil.copy2(r'E:\sagepy\env\20200924\execute.py',r'E:\sagepy\env\20200924\execute2.py')
+#复制目录以及目录下的文件
+shutil.copytree(r'E:\sagepy\env\20200731',r'E:\sagepy\env\20200294\0731',ignore=shutil.ignore_patterns('*.py'))
+#删除目录树
+shutil.rmtree(r'E:\sagepy\env\20200294')
+#重命名
+shutil.move(r'E:\sagepy\env\20200924\惹出.py',r'E:\sagepy\env\20200924\exue.py')
+#统计空间使用情况
+total, used, free = shutil.disk_usage("e:\\")
+print("e盘总量：{:.2f}GB，使用量：{:.2f}GB，空闲：{:.2f}GB".format(total/1024/1024/1024,used/1024/1024/1024,free/1024/1024/1024))
+#解压缩
+shutil.make_archive(r'E:\sagepy\env\20200731\520','zip',r'E:\sagepy\env\520')
+shutil.unpack_archive(r'E:\sagepy\env\20200924\520.zip',r'E:\sagepy\env\20200924\520_out')
+
+```
+
