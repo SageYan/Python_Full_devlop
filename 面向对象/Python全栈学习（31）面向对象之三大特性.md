@@ -4,189 +4,169 @@
 
 # Python全栈学习（31）面向对象之三大特性
 
-## 类的定义
+## 三大特性：继承 封装 多态
+
+## 继承 
+
+### 定义
 
 ```python
-类的定义是对显示事务的抽象过程和能力，类是一个对象/实例的模板，也是一个特殊的对象/实例（因为Pythobn中一切皆对象，所以类本身也是一个对象）
+继承关系的类之间是有层级的。
+被继承的类被称为 父类、基类 或 超类 ；继承的类被称为 子类 或 派生类
 ```
 
-## 类有两种作用：属性引用和实例化
-
-### 属性引用
+### 作用
 
 ```python
-class Person:
-    role = 'person'
-    def __init__(self,name,sex,job,hp,weapon,ad):
+1 增加了类的耦合性（耦合性不宜多，宜精）。
+2 减少了重复代码。
+3 使得代码更加规范化，合理化。
+```
+
+### **继承与重用性**
+
+ 通过继承的方式新建类B，让B继承A，B会‘遗传’A的所有属性(数据属性和函数属性)，实现代码重用 
+
+```python
+class  Animal:
+    def __init__(self,name):
         self.name = name
-        self.sex = sex
-        self.job = job
-        self.hp = hp
-        self.weapon = weapon
-        self.ad = ad
-    def rub(self,dog):
-        dog.hp -= self.ad
-        print('%s给%s搓了澡,%s掉了%s点血,%s当前血量%s' % (self.name,dog.name,self.ad,dog.name,dog.hp))
 
-print(Person.role)
-print(Person.rub)
+    def eat(self):
+        print("{} is eating !".format(self.name))
 
-'''
-person
-<function Person.rub at 0x0000019E70FFD400>
-'''
-```
+    def drink(self):
+        print("%s is drinking" % self.name)
 
-### 类的实例化——实例化一个对象
+    def sleep(self):
+        print("{} is sleeping".format(self.name))
 
-```python
-语法：对象名 = 类名(参数)
-alex = Person('alex','male','worker',250,'sword',1)
 
-#万能的点 "."
-#对象属性的查看
-print(alex,alex.__dict__)
-print(alex.ad)
-#对象属性的增加
-alex.money = 2000 
-#对象属性的修改
-alex.name = 'alexSB'
-#对象属性的删除
-del alex.sex
-print(alex.money,alex.__dict__)
+class Cat(Animal):
+    def climb_tree(self):
+        print("{} is climbing tree".format(self.name))
 
-'''
-<__main__.Person object at 0x000001C7CBF645F8> {'ad': 1, 'job': 'worker', 'hp': 250, 'sex': 'male', 'weapon': 'sword', 'name': 'alex'}
-1
-2000 {'ad': 1, 'job': 'worker', 'hp': 250, 'money': 2000, 'weapon': 'sword', 'name': 'alexSB'}
-'''
+class Dog(Animal):
+    def keep_house(self):
+        print("{} is keeping house!".format(self.name))
 
-其实实例化一个对象总共发生了三件事：
-　　1，在内存中开辟了一个对象空间。
-　　2，自动执行类中的__init__方法，并将这个对象空间（内存地址）传给了__init__方法的第一个位置参数self。
-　　3，在__init__ 方法中通过self给对象空间添加属性。
-```
 
-## 对象的相关知识
-
-```python
-#对象是关于类而实际存在的一个例子，即实例
-
-#对象/实例只有一种作用：属性引用
-```
-
-### 使用对象操作类中的方法
-
-#### 绑定方法的调用方式
-
-```python
-对象.绑定方法() = 类名.绑定方法(对象)
+amy = Cat('Amy')
+# amy实例化，开辟空间,空间里有一个指向Cat类指针
+# 实例化需要调用“init”方法,对象在自己的空间中找init没找到,到Cat类中找init也没找到,直到在找父类Animal中的init
+sage = Dog('Sage')
+amy.climb_tree()
+sage.keep_house()
 ```
 
 
 
+### 继承与派生
+
+#### 子类想要调用父类的方法的同时还想执行自己的同名方法 :父类名.方法名(self) 或  super().func(参数) 
+
 ```python
-class Person:
-    role = 'person'
-    def __init__(self,name,sex,job,hp,weapon,ad):
+class Amimal:
+    def __init__(self, name, food):
         self.name = name
-        self.sex = sex
-        self.job = job
-        self.hp = hp
-        self.weapon = weapon
-        self.ad = ad
-    def rub(self,dog):
-        dog.hp -= self.ad
-        print('%s给%s搓了澡,%s掉了%s点血,%s当前血量%s' % (self.name,dog.name,dog.name,self.ad,dog.name,dog.hp))
+        self.food = food
+        self.hp = 100
+        self.mp = 100
+
+    def eat(self):
+        print("%s is eating %s" % (self.name, self.food))
+
+    def drink(self):
+        print('%s is drinking' % self.name)
+
+    def sleep(self):
+        print('%s is sleeping' % self.name)
 
 
-class Dog:
-    def __init__(self,name,ad,kind,hp):
-        self.name=name
-        self.ad=ad
-        self.kind=kind
-        self.hp = hp
+class Cat(Amimal):
+    def eat(self):
+        self.hp += 100
+        Amimal.eat(self)
 
-    def bite(self,person):
-        person.hp -= self.ad
-        print('%s咬了%s,%s掉了%s点血,%s当前血量%s' % (self.name,person.name,person.name,self.ad,person.name,person.hp))
+    def climb_tree(self):  #派生：猫有爬树技能
+        print("{} is climbing tree".format(self.name))
+        Amimal.drink(self)
 
-alex = Person('alex', 'male', 'worker', 250, 'sword', 1)
-egg = Dog('egg',20,'二哈',340)
 
-egg.bite(alex)
-print(alex.hp)
+class Dog(Amimal):
+    def eat(self):
+        self.mp += 30
+        #Amimal.eat(self)
+        super().eat()
+
+    def house_keep(self):
+        print('%s is keeping the house' % self.name)
+
+
+amy = Cat("Amy","fish")
+sage = Dog("Sage", 'meat')
+
+amy.eat()
+sage.eat()
+
+print(amy.__dict__)
+print(sage.__dict__)
+
 '''
-egg咬了alex,alex掉了20点血,alex当前血量230
-230
+Amy is eating fish
+Sage is eating meat
+{'hp': 200, 'name': 'Amy', 'mp': 100, 'food': 'fish'}
+{'hp': 100, 'name': 'Sage', 'mp': 130, 'food': 'meat'}
 '''
 ```
 
-## 类的属性
-
-```tex
-1 公有属性/静态属性
-2 成员属性/实例属性
-3 私有属性
-```
-
-### 静态属性
+#### 思考题
 
 ```python
-'''
-直接定义在class下的属性就是公有属性/类属性，比如下面那个Person类中的nationality属性。
-“公有”的意思是这个属性是这个类的所有实例对象共同所有的，因此默认情况下这个属性值值保留一份，而不会为该类的每个实例都保存一份。
-'''
+class Foo:
+    def __init__(self):
+        self.func()
 
-import uuid
+    def func(self):
+        print("in foo!")
+
+class Son(Foo):
+    def func(self):
+        print("in son!")
 
 
-class Person(object):
-    nationality = 'China'
-    test = [1,2]
+Son() #in son!
 
-    def __init__(self, name):
+PS：执行过程
+遵循LGB原则，实例化调用“init”方法，对象空间Son()中没有,通过类指针到类Son中去寻找。
+类Son中也没有，到父类Foo中调用“init”方法，初始化self,执行func函数。
+此时self指向的是对象空间Son()，而对象空间中没有func函数，于是在类空间Son中寻找，找到执行func。
+```
+
+#### 子类定制个性的属性
+
+```python
+class Aminal:
+    def __init__(self,name,food):
         self.name = name
-        self.__id = str(uuid.uuid1())
+        self.food = food
 
-    def hello(self):
-        print('Hi, i am %s, from %s， my id is %s' % (self.name, self.nationality, self.__id))
+    def eat(self):
+        print('%s is eating %s'%(self.name,self.food))
 
-    def get_and_print_id(self):
-        print(self.__id)
-        return self.__id
 
-tom = Person('tom')
-jack = Person('jack')
-tom.nationality = 'India'
-print(tom.nationality,jack.nationality)
 
-del tom.nationality
-Person.nationality='USA'
-print(tom.nationality,jack.nationality)
+class Cat(Aminal):
+    def __init__(self,name,food,eye):
+        Aminal.__init__(self,name,food) # 调用了父类的初始化,去完成一些通用属性的初始化
+        self.eye =eye # 派生属性
 
+
+amy = Cat('amy','fish','blue')
+
+print(amy.__dict__)
 '''
-India China
-USA USA
-'''
-#公有属性/静态属性 可以直接通过类直接访问，也可以直接通过实例进行访问；
-#通过类的某个实例对公有属性进行修改，实际上对为该实例添加了一个与类的公有属性名称相同的成员属性，对真正的公有属性是没有影响的，因此它不会影响其他实例获取的该公有属性的值；
-#通过类对公有属性进行修改，必然是会改变公有属性原有的值，他对该类所有的实例是都有影响的。
-PS:
-对于可变数据类型来说，例如列表。
-对列表中的值进行修改不会改变列表的内存地址，只会改变内部元素的内存地址。不会影响从对象到类的指针。所以使用类和对象去修改是共享的，赋值是独立的。
-
-tom.test.append(3)
-print(Person.test,tom.test)
-del tom.test[0]
-print(Person.test,tom.test)
-tom.test = [4,5,6]
-print(Person.test,tom.test)
-
-'''
-[1, 2, 3] [1, 2, 3]
-[2, 3] [2, 3]
-[2, 3] [4, 5, 6]
+{'name': 'amy', 'eye': 'blue', 'food': 'fish'}
 '''
 ```
 
