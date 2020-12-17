@@ -540,61 +540,6 @@ class Queue(Foo):
         return self.l.pop(0)
 class Stack(Foo):
     pass
-
-
-#自定义Pickle,借助pickle模块来完成简化的dump和load
-import pickle
-class mypickle:
-    def __init__(self,path):
-        self.path = path
-
-    def dump(self,obj):
-        with open(self.path,'ab') as f:
-            pickle.dump(obj,f)
-
-    def load(self):
-        with open(self.path,'rb') as f:
-            while True:
-                try:
-                    yield pickle.load(f)
-                except EOFError:
-                    break
-
-
-class Course:
-    def __init__(self,name,period,price):
-        self.name = name
-        self.period = period
-        self.price = price
-
-python = Course('python','6 moneth',21800)
-linux = Course('linux','5 moneth',19800)
-go = Course('go','4 moneth',12800)
-
-
-mypic = mypickle('picfile')
-# mypic.dump(python)
-# mypic.dump(linux)
-for i in mypic.load():
-    print(i.__dict__)
-'''
-{'price': 21800, 'period': '6 moneth', 'name': 'python'}
-{'price': 19800, 'period': '5 moneth', 'name': 'linux'}
-'''
-
-import json
-class myjson:
-    def __init__(self,path):
-        self.file = path
-
-    def dump(self,obj):
-        with open(self.file,'a',encoding='utf-8') as f:
-            f.write(json.dumps(obj)+'\n')
-
-    def load(self):
-        with open(self.file,'r',encoding='utf-8') as f:
-            for i in f:
-                yield json.loads(i.strip())
 ```
 
 ## 多态

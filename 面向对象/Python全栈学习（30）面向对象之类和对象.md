@@ -439,3 +439,183 @@ if __name__ == '__main__':
         if obj.change_pwd():print("密码修改成功")        
 ```
 
+```python
+
+
+# 注册之后,重启所有的用户丢失，要求一次执行的注册行为,在之后所有执行中都能够正常登录
+# 登录程序和面向对象的内容整理在一起
+import pickle
+
+class User:
+    def __init__(self, name, pwd):
+        self.name = name
+        self.pwd = pwd
+
+
+class Account:
+    def __init__(self, datapath):
+        # 用户列表，数据格式：[user对象，user对象，user对象]
+        self.datapath = datapath
+
+    def dump(self, obj):
+        with open(self.datapath,'ab') as f1:
+            pickle.dump(obj,f1)
+
+    def load(self):
+        with open(self.datapath,'rb') as f2:
+            while True:
+                try:
+                    yield pickle.load(f2)
+                except EOFError:
+                    break
+
+    def login(self):
+        # 登录
+        # 登录 输入用户名密码
+        # 和self.user_list作比对
+        username = input('用户名 :')
+        password = input('密  码 :')
+
+        for user in self.load():
+            if username == user.name and password == user.pwd:
+                print('登录成功')
+                break
+        else:
+            print('登录失败')
+
+    def register(self):
+        # 注册
+        # 注册成功了之后,user对象存在user_list里
+        username = input('用户名 :')
+        password = input('密  码 :')
+        password2 = input('密码确认 :')
+        if password == password2:
+            user = User(username, password)
+            self.dump(user)
+            #Account.dump(self,user)
+            #print(self.user_list)
+        else:
+            print('注册失败,您两次输入的密码不一致')
+
+    def run(self):
+        opt_lst = ['登录', '注册']
+        while True:
+            for index, item in enumerate(opt_lst, 1):
+                print(index, item)
+            num = input('请输入您需要的操作序号 :').strip()
+            if num == '1':
+                self.login()
+            elif num == '2':
+                self.register()
+            elif num.upper() == 'Q':
+                break
+
+
+if __name__ == '__main__':
+    obj = Account('userdata')
+    obj.run()
+
+
+#自定义Pickle,借助pickle模块来完成简化的dump和load
+import pickle
+class Mypickle:
+    def __init__(self,path):
+        self.path = path
+
+    def dump(self,obj):
+        with open(self.path,'ab') as f:
+            pickle.dump(obj,f)
+
+    def load(self):
+        with open(self.path,'rb') as f:
+            while True:
+                try:
+                    yield pickle.load(f)
+                except EOFError:
+                    break
+
+
+class Course:
+    def __init__(self,name,period,price):
+        self.name = name
+        self.period = period
+        self.price = price
+
+python = Course('python','6 moneth',21800)
+linux = Course('linux','5 moneth',19800)
+go = Course('go','4 moneth',12800)
+
+
+# mypic = mypickle('picfile')
+# mypic.dump(python)
+# mypic.dump(linux)
+# for i in mypic.load():
+#     print(i.__dict__)
+'''
+{'price': 21800, 'period': '6 moneth', 'name': 'python'}
+{'price': 19800, 'period': '5 moneth', 'name': 'linux'}
+'''
+
+import json
+class Myjson:
+    def __init__(self,path):
+        self.file = path
+
+    # 将自定义的类转化为字典，dumps方法使用
+    def obj_to_dict(self,obj):
+        d = {}
+        # 类名.__class__ 实例对应的类(仅新式类中)
+        d['__class__'] = obj.__class__.__name__
+        # 类名.__module__ 类定义所在的模块
+        d['__module__'] = obj.__module__
+        d.update(obj.__dict__)
+        return d
+
+    # 将字典转化为自定义的类，loads方法使用
+    def dict_to_obj(self,d):
+        if '__class__' in d:
+            class_name = d.pop('__class__')
+            module_name = d.pop('__module__')
+            module = __import__(module_name)
+            class_ = getattr(module, class_name)
+
+            args = {}
+            for key, value in d.items():
+                if key.startswith('_' + class_name):
+                    key = key.replace('_' + class_name + '__', '')
+                    args[key] = value
+                else:
+                    args[key] = value
+            # args = dict((key, value) for key, value in d.items() if not key.startswith('_'+class_name))
+            # print(args)
+            instance = class_(**args)
+        else:
+            instance = d
+        return instance
+
+    def dump(self,obj):
+        with open(self.file,'a',encoding='utf-8') as f:
+            f.write(json.dumps(self.obj_to_dict(obj))+'\n')
+
+    def load(self,tgt):
+        with open(self.file,'r',encoding='utf-8') as f:
+
+            for line in f:
+
+                line = json.loads(line.strip())
+                #print(type(line))
+                #line = self.dict_to_obj(line)
+                if tgt == line["name"]:
+                    return self.dict_to_obj(line)
+            else:
+                print("没有指定对象")
+
+myjson = Myjson('jsontxt')
+# myjson.dump(go)
+# myjson.dump(python)
+# myjson.dump(linux)
+
+print(myjson.load("go").__dict__)
+print(myjson.load("linux"))
+```
+
