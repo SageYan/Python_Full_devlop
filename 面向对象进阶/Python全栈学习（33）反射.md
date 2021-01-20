@@ -249,3 +249,44 @@ while True:
     if hasattr(f,File.lst[num-1][1]):
         getattr(f,File.lst[num-1][1])()
 ```
+
+## 反射作业
+
+```python
+'''
+用反射完成
+写一个python脚本,在cmd里执行,实现：
+python xxx.py 用户名 密码 cp 文件路径 目的地址
+python xxx.py alex sb cp D:\python_22\day22\1.内容回顾.py D:\python_22\day21
+python xxx.py alex sb rm D:\python_22\day22
+python xxx.py alex sb rename D:\python_22\day22  D:\python_22\day23
+'''
+
+import os
+import sys
+import shutil
+class OsCmd:
+    def __init__(self):
+        self.user = "alex"
+        self.pwd = "sb"
+    def cp(self):
+        if os.path.exists(sys.argv[4]) and os.path.exists(sys.argv[5]):
+            filename = os.path.basename(sys.argv[4])
+            newpath = os.path.join(sys.argv[5],filename)
+            shutil.copy2(sys.argv[4],newpath)
+            
+
+        else:print("wrong path input!")
+
+    def rename(self):
+        if os.path.exists(sys.argv[4]) and os.path.exists(os.path.dirname(sys.argv[5])):
+            os.rename(sys.argv[4], sys.argv[5])
+            print("rename到{}命令执行成功".format(sys.argv[5]))
+        else:
+            print("wrong path input!")
+
+oscmd = OsCmd()
+if getattr(oscmd,"user") == sys.argv[1] and getattr(oscmd,"pwd") == sys.argv[2] and len(sys.argv) == 6:
+    getattr(oscmd,sys.argv[3])()
+```
+
