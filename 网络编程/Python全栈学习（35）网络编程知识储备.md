@@ -64,85 +64,91 @@ https://www.cnblogs.com/linhaifeng/articles/5937962.html
 #网络层功能：引入一套新的地址用来区分不同的广播域／子网，这套地址即网络地址
 
 ip协议：
-议的作用主要有两个，一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。
+作用主要有两个，一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。
 
+	#子网掩码：
+  知道”子网掩码”，我们就能判断，任意两个IP地址是否处在同一个子网络。
+  方法是将两个IP地址与子网掩码分别进行AND运算（两个数位都为1，运算结果为1，否则为0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是
+  #ip数据包：
+  ip数据包也分为head和data部分，无须为ip包定义单独的栏位，直接放入以太网包的data部分
+  
+arp协议：
+arp协议功能主要是以广播的方式发送数据包，获取目标主机的mac地址。
 ```
 
-
-
-### 一、不用实例化对象,就直接使用类在外部修改类的静态变量
+3.4 传输层
 
 ```python
-class Goods:
-    __discount = 0.8
-    def __init__(self,price):
-        self.price = price * self.__discount
+传输层功能：建立端口到端口的通信
+端口范围0-65535，0-1023为系统占用端口
 
-    @classmethod
-    def change_dis(cls,discount):
-        cls.__discount = discount
-
-Goods.change_dis(0.85)
-print(Goods(100).price)
-```
-
-### 二、把一个对象绑定的方法 修改成一个类方法
-
-```python
-import time
-class Date:
-    def __init__(self,day,month,year):
-        self.day = day
-        self.month = month
-        self.year = year
-
-    @classmethod
-    def today(cls):
-        tm = time.localtime()
-        date = cls(tm.tm_mday,tm.tm_mon,tm.tm_year)
-        return date
-
-today = Date.today()
-print(today.day,"Today is {}-{}-{}".format(today.year,today.month,today.day))
-
-#22 Today is 2020-12-22
-```
-
-## staticmethod
-
-### 被装饰的方法会成为一个静态方法
-
-```python
-class User:
-    pass
-    @staticmethod
-    def login(a,b):      
-        # 本身是一个普通的函数,被挪到类的内部执行,那么直接给这个函数添加@staticmethod装饰器就可以了
-        # 在函数的内部既不会用到self变量,也不会用到cls类
-        print('登录的逻辑',a,b)
-```
-
-## 小结
-
-```python
-class A:
-    country = '中国'
-    def func(self):
-        print(self.__dict__)
-    @classmethod
-    def clas_func(cls):
-        print(cls)
-    @staticmethod
-    def stat_func():
-        print('普通函数')
-    @property
-    def name(self):
-        return 'wahaha'
+	tcp协议：
+		可靠传输，TCP数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常TCP数据包的长度不会超过IP数据包的长度，以确保单个TCP数据包不必再分割。
     
-# 能定义到类中的内容
-# 静态变量 是个所有的对象共享的变量  有对象\类调用 但是不能重新赋值
-# 绑定方法 是个自带self参数的函数    由对象调用
-# 类方法   是个自带cls参数的函数     由对象\类调用
-# 静态方法 是个啥都不带的普通函数    由对象\类调用
-# property属性 是个伪装成属性的方法  由对象调用 但不加括号
+	udp协议：
+		不可靠传输，”报头”部分一共只有8个字节，总长度不超过65,535字节，正好放进一个IP数据包。
 ```
+
+3.5 应用层
+
+```python
+应用层功能：规定应用程序的数据格式。
+```
+
+3.6 socket
+
+```python
+socket是在应用层和传输层之间的一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信。
+
+原理：
+	socket起源于UNIX，在Unix一切皆文件哲学的思想下，socket是一种"打开—读/写—关闭"模式的实现，服务器和客户端各自维护一个"文件"，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。
+```
+
+## 网络通信流程 
+
+1 本机获取
+
+```python
+本机的IP地址：192.168.1.100
+子网掩码：255.255.255.0
+网关的IP地址：192.168.1.1
+DNS的IP地址：8.8.8.8
+```
+
+2 打开浏览器，想要访问Google，在地址栏输入了网址：www.google.com
+
+3 dns协议(基于udp协议)
+
+4  HTTP部分的内容,会被嵌在TCP数据包之中
+
+5 TCP协议
+
+```python
+TCP数据包需要设置端口，接收方（Google）的HTTP端口默认是80，发送方（本机）的端口是一个随机生成的1024-65535之间的整数，假定为51775。
+
+TCP数据包的标头长度为20字节，加上嵌入HTTP的数据包，总长度变为4980字节。
+```
+
+6 IP协议
+
+```python
+
+TCP数据包再嵌入IP数据包。IP数据包需要设置双方的IP地址，这是已知的，发送方是192.168.1.100（本机），接收方是172.194.72.105（Google）。
+IP数据包的标头长度为20字节，加上嵌入的TCP数据包，总长度变为5000字节。
+```
+
+7 以太网协议
+
+```python
+IP数据包嵌入以太网数据包。以太网数据包需要设置双方的MAC地址，发送方为本机的网卡MAC地址，接收方为网关192.168.1.1的MAC地址（通过ARP协议得到）。
+以太网数据包的数据部分，最大长度为1500字节，而现在的IP数据包长度为5000字节。因此，IP数据包必须分割成四个包。因为每个包都有自己的IP标头（20字节），所以四个包的IP数据包的长度分别为1500、1500、1500、560。
+```
+
+8 服务器端响应
+
+```python
+经过多个网关的转发，Google的服务器172.194.72.105，收到了这四个以太网数据包。
+根据IP标头的序号，Google将四个包拼起来，取出完整的TCP数据包，然后读出里面的”HTTP请求”，接着做出”HTTP响应”，再用TCP协议发回来。
+本机收到HTTP响应以后，就可以将网页显示出来，完成一次网络通信。
+```
+
